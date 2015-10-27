@@ -17,8 +17,9 @@ for i = 1:iter
     X = X_sample + 10 + noise_state; % 状态转移方程 
     noise_measure = normrnd(0,sigma_noise,1,N); % 观测噪声，高斯噪声
     U = X + noise_measure; % 观测方程
-    delta = (U - X).^2;
-    w = delta/sum(delta);
+    delta = (U - X).^2; 
+    w = 1./(delta/sum(delta));% delta越大，w应该越小
+    w = w./sum(w);
 %     x_new = round(sum(w.*X));
     x_new = sum(w.*X);
     scatter(x_new,i,40,'filled');hold on;axis([0 200 0 25]);
